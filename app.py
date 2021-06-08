@@ -34,17 +34,23 @@ def home():
     return render_template("index.html", fast_food_data=ff_data)
 
 # Route that will display the JSON
-@app.route("/json") #variables in the route to get the specific data
-def json():
+@app.route("/json/<state>") #variables in the route to get the specific data
+def json(state):
 
     #add python POST
     
     # Display the data the JSON info
     
     # Find the fast food data from the mongo database
-    ff_data = list(mongo.db.collection.find())
+    if (state == "ALL"):
+        ff_data = list(mongo.db.collection.find())
+    else:
+        ff_data = list(mongo.db.collection.find({"state": state}))
+
+    #ff_data = list(mongo.db.collection.find())
 
     # Return the JSON data
+    #return jsonify(dumps(ff_data))
     return dumps(ff_data)
 
 if __name__ == "__main__":
