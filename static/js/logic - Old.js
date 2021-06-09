@@ -1,7 +1,7 @@
 // Creating map object
 var myMap = L.map("map", {
   center: [39.82, -98.57],
-  zoom: 4
+  zoom: 5
 });
 
 // Adding tile layer to the map
@@ -28,7 +28,7 @@ var states = [""];
 var restaurants = {};
 
 // Grab the data with d3
-d3.csv("fast_food.csv").then(function(response) {
+d3.csv("fast_food_v2.csv").then(function(response) {
 console.log(response)
   // Create a new marker cluster group
   var markers = L.markerClusterGroup();
@@ -44,17 +44,14 @@ console.log(response)
     if (location) {
 
       // Add a new marker to the cluster group and bind a pop-up
-      // markers.addLayer(L.marker([location.coordinates[1], location.coordinates[0]])
       markers.addLayer(L.marker(location)
-        .bindPopup("<strong>" + response[i].name + "</strong>" + "<hr>"  
-        + response[i].address + "<br>" 
-        + response[i].city
-        + ", " + response[i].state
-        
+        // .bindPopup("<strong>" + response[i].name + "</strong>" + "<hr>"  
+        // + response[i].address + "<br>" 
+        // + response[i].city
+        // + ", " + response[i].state
+        .bindPopup("<h4 style=font-size:20px;><strong>" + response[i].name + "</h4> <h5>" 
+        + response[i].address + "<br>"  + response[i].city  + ", " + response[i].state + "</h5>"
         ));
-        // .bindPopup("<h3>" + response[i].name + "</h3> <hr> <h4>" response[i].address + response[i].city "</h4>");)
-        // .bindPopup("<h3>" + response[i].name + "</h3> <hr> <h4>" + response[i].address + "</h4>");
-
     }
 
     // Get state names for drop down
@@ -101,7 +98,7 @@ console.log(response)
   var menu = d3.select("#selDataset");
   // Sort the states in alphabetical order
   states.sort();
-  states[0] = "ALL";
+  states[0] = "ALL USA";
   // Iterate through names and add each name as an option in the drop down menu
   states.forEach(function(state) {
       var item = menu.append("option");
@@ -122,11 +119,13 @@ console.log(response)
   }
 
   // Default state input is none selected (show all)
-  var stateInput = "ALL";
-  init(stateInput, states);
+  var stateInput = "ALL USA";
+  // init(stateInput, states);
+  init(stateInput);
 
   // Initialize page to display information all states
-  function init(stateInput, states) {
+  // function init(stateInput, states) {
+    function init(stateInput) {
       // Get the index of the subject
       //indexID = names.indexOf(subjectID);
       //console.log(data.metadata[indexID]);
@@ -135,10 +134,10 @@ console.log(response)
       var demoInfo = d3.select("#sample-metadata");
 
       // Clear old demographic info
-      demoInfo.selectAll("ul").remove(); 
+      demoInfo.selectAll("p").remove(); 
 
       // Insert demographic info
-      demoInfo.append("ul").text(`Looking at: ${stateInput}`);
+      demoInfo.append("p").text(`Looking at: ${stateInput}`);
       // demoInfo.append("ul").text(`BBTYPE: ${data.metadata[indexID].bbtype}`);
       // demoInfo.append("ul").text(`ETHNICITY: ${data.metadata[indexID].ethnicity}`);
       // demoInfo.append("ul").text(`GENDER: ${data.metadata[indexID].gender}`);
@@ -158,51 +157,94 @@ console.log(response)
       var textSliced = text.slice(0,10).reverse();
       
       // Bar graph
+      var colors = ["red", "orange", "yellow","lightgreen","yellowgreen","green",
+      "lightblue","turquoise","blue","navy"];
+  
       var trace1 = {
-        x: xSliced.reverse(),
+        x: xSliced,
         y: ySliced.map(item => (item.toString())),
-        text: textSliced,
-        type: "bar",
-        name: "Fast Food",
-        orientation: "h"
-      }
-      
-      // Bar graph layout
-      var layout1 = {
-          yaxis: {
-              type: "category",
-              title: "Restaurant Name"
+        marker: {
+          color: colors,
+          line: {
+            width: 1,
           },
-          title: "Top 10 Restaurants"
-      }
-    
+        },
+        // horizontal bar type
+        orientation: "h",
+        type: "bar",
+      };
+      
+      // // Bar graph layout
+      // var layout1 = {
+      //     yaxis: {
+      //         type: "category",
+      //         title: "Restaurant Name"
+      //     },
+      //     title: "Top 10 Restaurants by selected State"
+      // }
+      var layout1 = {
+        // hoverinfo: otu_labels,
+        title: {
+          text: "<b>Top 10 fast food chains by selected State</b>",
+          font: {
+            size: 16,
+            xanchor: "left",
+            yanchor: "top",
+          },
+        },
+        autosize: false,
+        width: 450,
+        height: 470,
+        margin: {
+          l: 70,
+          r: 15,
+          b: 100,
+          t: 70,
+          pad: 4,
+        },
+        yaxis: {
+          autorange: "reversed",
+          automargin: true,
+          font: {
+             family: "Helvetica",
+          },
+          tickfont: {
+            size: 14,
+          },
+        },
+        xaxis: {
+          title: {
+            text: "<b># of restaurants</b>",
+            font: {
+               family: "Helvetica",
+              size: 18,
+            },
+          },
+          tickfont: {
+            size: 14,
+          },
+          range: [0, 900],
+          tick0: 0,
+          dtick: 100
+        },
+      };
+
+
       Plotly.newPlot("bar", [trace1], layout1);
 
-  //     // Bubble Chart
-  //     var trace2 = {
-  //         x: y,
-  //         y: x,
-  //         mode: "markers",
-  //         marker: {
-  //             color: y,
-  //             size: x
-  //         },
-  //         text: text
-  //     }
-  //     var layout2 = {
-  //         xaxis: {
-  //             title: "OTU ID"
-  //         },
-  //         title: "Bacteria Cultures Per Sample"
-  //     }
-  //     Plotly.newPlot("bubble", [trace2], layout2);
 
       // Gauge
       var trace3 = {
               domain: { x: [0, 1], y: [0, 1] },
+              // value: wfreq,
               value: x.reduce(function(a, b){return a + b;}, 0),
-              //value: 10,
-              title: { text: "Total Number of Restaurants" },
+              // value: x,
+              title: { text: "<b>Total Number of Restaurants <br> by selected State</b><br> ",
+                  font: {
+                    size: 16,
+                  },
+                
+                },
               type: "indicator",
               mode: "gauge+number",
               gauge: {
@@ -216,6 +258,16 @@ console.log(response)
               }
       }
       var layout3 = {
+        width: 400, 
+      height: 500,
+      font: {size: 15},
+      margin: {
+        l: 40,
+        r: 50,
+        b: 0,
+        t: 10,
+        pad: 10,
+      },
           yaxis: {
             tickmode: "linear",
             tick0: 0,

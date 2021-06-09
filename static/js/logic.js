@@ -26,23 +26,50 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 // Varaible to hold state names for dropdown menu
 var states = [""];
 var restaurants = {};
-// var response =
 
 // Grab the data with d3
-d3.csv("fast_food_v2.csv").then(function(result) {
-console.log(result)
+d3.csv("fast_food_v2.csv").then(function(response) {
+console.log(response)
   // Create a new marker cluster group
   var markers = L.markerClusterGroup();
   
-  for (var i = 0; i < result.length; i++) {
-    // Get state names for drop down
-    if (!(states.includes(result[i].state))) {
-      states.push(result[i].state);
+  // Loop through data
+  for (var i = 0; i < response.length; i++) {
+
+    // Set the data location property to a variable
+    var location = [response[i].latitude,response[i].longitude];
+    // console.log(location);
+
+    // Check for location property
+    if (location) {
+
+      // Add a new marker to the cluster group and bind a pop-up
+      markers.addLayer(L.marker(location)
+        // .bindPopup("<strong>" + response[i].name + "</strong>" + "<hr>"  
+        // + response[i].address + "<br>" 
+        // + response[i].city
+        // + ", " + response[i].state
+        .bindPopup("<h4 style=font-size:20px;><strong>" + response[i].name + "</h4> <h5>" 
+        + response[i].address + "<br>"  + response[i].city  + ", " + response[i].state + "</h5>"
+        ));
     }
+
+    // Get state names for drop down
+    if (!(states.includes(response[i].state))) {
+      states.push(response[i].state);
+    }
+
+    // Get restaurant names and count for top 10
+    if (!(response[i].name in restaurants)) {
+      //console.log(response[i].name)
+      restaurants[response[i].name] = 1;
+    }
+    else {
+      restaurants[response[i].name]++;
+    }
+
+
   }
-
-
-  
   console.log(states);
   // Sort reataurants from greatest to least frequency
   // https://stackoverflow.com/questions/25500316/sort-a-dictionary-by-value-in-javascript
@@ -96,56 +123,17 @@ console.log(result)
   // init(stateInput, states);
   init(stateInput);
 
-  
-    
   // Initialize page to display information all states
   // function init(stateInput, states) {
-  function init(stateInput) {
-    if (stateInput == "ALL USA") {
-
-      var response = result;
-    }
-    else {
-          // Get the index of the subject
-      var response = result.filter(item => item.state == stateInput);
-    }
-      console.log(response);
-      // Loop through data
-    
-          for (var i = 0; i < response.length; i++) {
-
-            // Set the data location property to a variable
-            var location = [response[i].latitude,response[i].longitude];
-            // console.log(location);
-
-            // Check for location property
-            if (location) {
-
-              // Add a new marker to the cluster group and bind a pop-up
-              markers.addLayer(L.marker(location)
-
-                .bindPopup("<h4 style=font-size:20px;><strong>" + response[i].name + "</h4> <h5>" 
-                + response[i].address + "<br>"  + response[i].city  + ", " + response[i].state + "</h5>"
-                ));
-            }
-            // Get restaurant names and count for top 10
-            if (!(response[i].name in restaurants)) {
-              //console.log(response[i].name)
-              restaurants[response[i].name] = 1;
-            }
-            else {
-              restaurants[response[i].name]++;
-            }
-
-          }
-    
-          
-
+    function init(stateInput) {
+      // Get the index of the subject
+      //indexID = names.indexOf(subjectID);
+      //console.log(data.metadata[indexID]);
 
       // // Select the demographic info on the HTML document
       var demoInfo = d3.select("#sample-metadata");
 
-      // Clear box 
+      // Clear old demographic info
       demoInfo.selectAll("p").remove(); 
 
       // Insert demographic info
@@ -251,7 +239,12 @@ console.log(result)
               // value: wfreq,
               value: x.reduce(function(a, b){return a + b;}, 0),
               // value: x,
-              title: { text: "<b>Total Number of Restaurants <br> by selected State</b>" },
+              title: { text: "<b>Total Number of Restaurants <br> by selected State</b><br> ",
+                  font: {
+                    size: 16,
+                  },
+                
+                },
               type: "indicator",
               mode: "gauge+number",
               gauge: {
@@ -265,11 +258,11 @@ console.log(result)
               }
       }
       var layout3 = {
-        width: 470, 
+        width: 400, 
       height: 500,
       font: {size: 15},
       margin: {
-        l: 70,
+        l: 40,
         r: 50,
         b: 0,
         t: 10,
