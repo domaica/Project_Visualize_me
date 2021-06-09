@@ -182,9 +182,11 @@ console.log(response)
       //     },
       //     title: "Top 10 Restaurants by selected State"
       // }
+      var stateInput = "ALL USA";
       var layout1 = {
         // hoverinfo: otu_labels,
         title: {
+          
           text: "<b>Top 10 fast food chains by selected State</b>",
           font: {
             size: 16,
@@ -194,10 +196,11 @@ console.log(response)
         },
         autosize: false,
         width: 600,
-        height: 470,
+        height: 500,
+        // paper_bgcolor: "#FBF6FD",
         margin: {
           l: 70,
-          r: 15,
+          r: 20,
           b: 100,
           t: 70,
           pad: 4,
@@ -221,11 +224,11 @@ console.log(response)
             },
           },
           tickfont: {
-            size: 12,
+            size: 13,
           },
           range: [0, 1300],
           tick0: 0,
-          dtick: 100
+          dtick: 200
         },
       };
 
@@ -239,12 +242,10 @@ console.log(response)
               // value: wfreq,
               value: x.reduce(function(a, b){return a + b;}, 0),
               // value: x,
-              title: { text: "<b>Total Number of Restaurants <br> by selected State</b><br> ",
-                  font: {
-                    size: 16,
-                  },
-                
-                },
+              title: { text: "<b>Total Number of Restaurants by selected State</b><br> ",
+                  font: {size: 16},
+              },
+
               type: "indicator",
               mode: "gauge+number",
               gauge: {
@@ -254,18 +255,23 @@ console.log(response)
                       tick0: 0,
                       dtick: 1000
                   }
-                  
-              }
+              },
+              threshold: {
+                line: { color: "red", width: 4 },
+                thickness: 0.75,
+                value: 5000
+              },
       }
       var layout3 = {
-        width: 450, 
-      height: 400,
+        width: 550, 
+      height: 350,
+      paper_bgcolor: "#FBF6FD",
       font: {size: 15},
       margin: {
         l: 40,
         r: 40,
-        b: 0,
-        t: 0,
+        b: 20,
+        t: 100,
         pad: 5,
       },
           yaxis: {
