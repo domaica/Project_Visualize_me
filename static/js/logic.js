@@ -193,7 +193,7 @@ console.log(response)
           },
         },
         autosize: false,
-        width: 450,
+        width: 600,
         height: 470,
         margin: {
           l: 70,
@@ -221,9 +221,9 @@ console.log(response)
             },
           },
           tickfont: {
-            size: 14,
+            size: 12,
           },
-          range: [0, 900],
+          range: [0, 1300],
           tick0: 0,
           dtick: 100
         },
@@ -258,15 +258,15 @@ console.log(response)
               }
       }
       var layout3 = {
-        width: 400, 
-      height: 500,
+        width: 450, 
+      height: 400,
       font: {size: 15},
       margin: {
         l: 40,
-        r: 50,
+        r: 40,
         b: 0,
-        t: 10,
-        pad: 10,
+        t: 0,
+        pad: 5,
       },
           yaxis: {
             tickmode: "linear",
