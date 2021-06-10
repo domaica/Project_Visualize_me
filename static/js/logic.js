@@ -14,22 +14,16 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   accessToken: API_KEY
 }).addTo(myMap);
 
-// Store API query variables
-// var baseURL = "https://data.cityofnewyork.us/resource/fhrw-4uyv.json?";
-// var date = "$where=created_date between'2016-01-01T00:00:00' and '2017-01-01T00:00:00'";
-// var complaint = "&complaint_type=Rodent";
-// var limit = "&$limit=10000";
-
 // Assemble API query URL
 // var url = baseURL + date + complaint + limit;
 
-// Varaible to hold state names for dropdown menu
+// Variable to hold state names for dropdown menu
 var states = [""];
 var restaurants = {};
 
 // Grab the data with d3
 d3.csv("fast_food_v2.csv").then(function(response) {
-console.log(response)
+console.log("CSV", response)
   // Create a new marker cluster group
   var markers = L.markerClusterGroup();
   
@@ -45,10 +39,7 @@ console.log(response)
 
       // Add a new marker to the cluster group and bind a pop-up
       markers.addLayer(L.marker(location)
-        // .bindPopup("<strong>" + response[i].name + "</strong>" + "<hr>"  
-        // + response[i].address + "<br>" 
-        // + response[i].city
-        // + ", " + response[i].state
+        // Popup content  
         .bindPopup("<h4 style=font-size:20px;><strong>" + response[i].name + "</h4> <h5>" 
         + response[i].address + "<br>"  + response[i].city  + ", " + response[i].state + "</h5>"
         ));
@@ -61,17 +52,17 @@ console.log(response)
 
     // Get restaurant names and count for top 10
     if (!(response[i].name in restaurants)) {
-      //console.log(response[i].name)
+      // console.log(response[i].name)
       restaurants[response[i].name] = 1;
     }
     else {
       restaurants[response[i].name]++;
     }
-
-
   }
-  console.log(states);
-  // Sort reataurants from greatest to least frequency
+  console.log("Names counted", restaurants)
+  console.log("States", states);
+
+  // Sort restaurants from greatest to least frequency
   // https://stackoverflow.com/questions/25500316/sort-a-dictionary-by-value-in-javascript
   var restaurantsSorted = Object.keys(restaurants).map(function(key) {
     return [key, restaurants[key]];
@@ -81,19 +72,15 @@ console.log(response)
   restaurantsSorted.sort(function(first, second) {
     return second[1] - first[1];
   });
-  // restaurants.sort(function(a, b) {
-  //   return b.name - a.name;
   // });
-  console.log(restaurantsSorted);
+  // numero de restaurantes por estado 
+  console.log("# rest sorted", restaurantsSorted);
 
   // Add our marker cluster layer to the map
   myMap.addLayer(markers);
 
   // // Drop down selection and graphs
   // // Get names to update dropdown menu
-  // var states = [];
-
-  // console.log(states);
   // Get a reference to the drop down menu
   var menu = d3.select("#selDataset");
   // Sort the states in alphabetical order
@@ -115,11 +102,13 @@ console.log(response)
       // Update subject ID based on selection
       stateInput = dropdownMenu.property("value");
       // Change the information on the page
-      init(stateInput, states);
+      console.log("STATE INPUT", stateInput)
+      init(stateInput);
   }
 
+
   // Default state input is none selected (show all)
-  var stateInput = "ALL USA";
+  var stateInput = "ALL_USA";
   // init(stateInput, states);
   init(stateInput);
 
@@ -138,15 +127,7 @@ console.log(response)
 
       // Insert demographic info
       demoInfo.append("p").text(`Looking at: ${stateInput}`);
-      // demoInfo.append("ul").text(`BBTYPE: ${data.metadata[indexID].bbtype}`);
-      // demoInfo.append("ul").text(`ETHNICITY: ${data.metadata[indexID].ethnicity}`);
-      // demoInfo.append("ul").text(`GENDER: ${data.metadata[indexID].gender}`);
-      // demoInfo.append("ul").text(`LOCATION: ${data.metadata[indexID].location}`);
-      // demoInfo.append("ul").text(`BWFREQ: ${data.metadata[indexID].wfreq}`);
-      // demoInfo.append("ul").text(`ID: ${data.metadata[indexID].id}`);
 
-      // Create charts
-      // Get the data and collect the top 10 samples
       var x = restaurantsSorted.map(x => x[1]);
       var xSliced = x.slice(0,10);
       console.log(xSliced);
