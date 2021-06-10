@@ -98,7 +98,7 @@ console.log(response)
   var menu = d3.select("#selDataset");
   // Sort the states in alphabetical order
   states.sort();
-  states[0] = "ALL USA";
+  states[0] = "ALL_USA";
   // Iterate through names and add each name as an option in the drop down menu
   states.forEach(function(state) {
       var item = menu.append("option");
@@ -182,7 +182,7 @@ console.log(response)
       //     },
       //     title: "Top 10 Restaurants by selected State"
       // }
-      var stateInput = "ALL USA";
+      var stateInput = "ALL_USA";
       var layout1 = {
         // hoverinfo: otu_labels,
         title: {
@@ -237,31 +237,99 @@ console.log(response)
 
 
       // Gauge
-      var trace3 = {
-              domain: { x: [0, 1], y: [0, 1] },
-              // value: wfreq,
-              value: x.reduce(function(a, b){return a + b;}, 0),
-              // value: x,
-              title: { text: "<b>Total Number of Restaurants by selected State</b><br> ",
-                  font: {size: 16},
-              },
+//       var trace3 = {
+//               domain: { x: [0, 1], y: [0, 1] },
+//               // value: wfreq,
+//               value: x.reduce(function(a, b){return a + b;}, 0),
+//               // value: x,
+//               title: { text: "<b>Total Number of Restaurants by selected State</b><br> ",
+//                   font: {size: 16},
+//               },
 
-              type: "indicator",
-              mode: "gauge+number",
-              gauge: {
-                  axis: {
-                      visible: true,
-                      range: [0, 10000],
-                      tick0: 0,
-                      dtick: 1000
-                  }
-              },
-              threshold: {
-                line: { color: "red", width: 4 },
-                thickness: 0.75,
-                value: 5000
-              },
-      }
+//               type: "indicator",
+//               mode: "gauge+number",
+//               gauge: {
+//                   axis: {
+//                       visible: true,
+//                       range: [0, 10000],
+//                       tick0: 0,
+//                       dtick: 1000
+//                   }
+//               },
+//               threshold: {
+//                 line: { color: "red", width: 4 },
+//                 thickness: 0.75,
+//                 value: 5000
+//               },
+//       }
+//       var layout3 = {
+//         width: 550, 
+//       height: 350,
+//       paper_bgcolor: "#FBF6FD",
+//       font: {size: 15},
+//       margin: {
+//         l: 40,
+//         r: 40,
+//         b: 20,
+//         t: 100,
+//         pad: 5,
+//       },
+//           yaxis: {
+//             tickmode: "linear",
+//             tick0: 0,
+//             dtick: 1
+//           }
+//       }
+//       Plotly.newPlot("gauge", [trace3], layout3);
+//   } 
+
+// });
+
+
+if (stateInput=="ALL_USA") {
+  var trace3 = {
+          domain: { x: [0, 1], y: [0, 1] },
+          value: x.reduce(function(a, b){return a + b;}, 0),
+          //value: 10,
+          title: { text: "<b>Total Number of Restaurants by selected State</b><br> ",
+              font: {size: 16},
+          },
+          type: "indicator",
+          mode: "gauge+number",
+          //mode: "gauge",
+          gauge: {
+              axis: {
+                  visible: true,
+                  range: [0, 10000],
+                  tick0: 0,
+                  dtick: 1000
+              }
+              
+          }
+  }
+}
+else {
+  var trace3 = {
+    domain: { x: [0, 1], y: [0, 1] },
+    value: x.reduce(function(a, b){return a + b;}, 0),
+    //value: 10,
+    title: { text: "<b>Total Number of Restaurants by selected State</b><br> ",
+    font: {size: 16},
+      },
+    type: "indicator",
+    mode: "gauge+number",
+    //mode: "gauge",
+    gauge: {
+        axis: {
+            visible: true,
+            range: [0, 3000],
+            tick0: 0,
+            dtick: 300
+        }
+        
+    }
+  }
+}
       var layout3 = {
         width: 550, 
       height: 350,
@@ -269,7 +337,7 @@ console.log(response)
       font: {size: 15},
       margin: {
         l: 40,
-        r: 40,
+        r: 70,
         b: 20,
         t: 100,
         pad: 5,
@@ -282,5 +350,9 @@ console.log(response)
       }
       Plotly.newPlot("gauge", [trace3], layout3);
   } 
+
+
+restaurants = {};
+//states = [];
 
 });
