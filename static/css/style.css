@@ -8,15 +8,3 @@ body,
 html {
   height: 90%;
 }
-
-.panel-body {
-  /* line-height: 15px; */
-  margin-left: 5px;
-}
-
-p {
-  color: black;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  line-height: 25px;
-  }
