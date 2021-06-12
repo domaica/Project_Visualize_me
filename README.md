@@ -24,7 +24,7 @@ The requirements of this project asked for visualization under following require
 
 ## Main folder for solution is called: 'Project_Visualize_me'
 
-Inside that root folder, we can among others, the following subfolders:
+Inside that root folder, we can find, among others, the following subfolders:
 
 - 'templates' containing 'index.html' with code for the webpage for the project.
 
@@ -39,7 +39,7 @@ Inside that root folder, we can among others, the following subfolders:
 
 And files, main one:
 
-- 'README.md' -> Markdown with project explanation.
+- 'README.md' -> Markdown with project explanation. To get a stronger knowledge of project, please review "ppt/'Project_2_group_visualize_me_v3.pptx" file.
 
 
 ### - Cross-origin resource sharing (CORS)
