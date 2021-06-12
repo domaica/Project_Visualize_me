@@ -29,7 +29,7 @@ Inside that root folder, we can find, among others, the following subfolders:
 - 'templates' containing 'index.html' with code for the webpage for the project.
 
 - 'static/js' subfolder with 2 files:
-    'logic.js' (coding) file invoked from html containing the javascript code.
+    'logic.js' (coding) file invoked from html containing the main javascript code.
     'config.js' with API-KEY required to access mapbox, provider of online maps for websites.
     'states_dict.js' containing different states coordinates and zoom levels needed for mapbox plotting.
   
