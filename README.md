@@ -42,13 +42,6 @@ And files, main one:
 - 'README.md' -> Markdown with project explanation. To get a stronger knowledge of project, please review "ppt/'Project_2_group_visualize_me_v3.pptx" file.
 
 
-### - Cross-origin resource sharing (CORS)
-
- CORS is a mechanism that restricts access to resources on a web page being requested from another domain outside the domain from which the first resource was served.
- 
-This project has been done by accessing the folder where "index.html" was located with command prompt, activate python and run the command 'python -m http.server'. This python command allows for separating Python code implementing an application’s logic from the HTML (or other) output that it produces. Therefore it lets us to work avoiding CORS security checks.
-
-After running that command, you can access your webpage by browsing in 'localhost:8000' and see the results of your html and js development.
 
 
 
