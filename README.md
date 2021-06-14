@@ -39,7 +39,8 @@ Inside that root folder, we can find, among others, the following subfolders:
 
 And files, main one:
 
-- 'README.md' -> Markdown with project explanation. To get a stronger knowledge of project, please review "ppt/'Project_2_group_visualize_me_v3.pptx" file.
+- 'README.md' -> Markdown with project explanation. 
+To get a stronger knowledge of project, please review "ppt/'Project_2_group_visualize_me_v3.pptx" file.
 
 
 
