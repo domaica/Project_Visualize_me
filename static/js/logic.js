@@ -70,7 +70,7 @@ d3.json("http://127.0.0.1:5000/json/"+stateInput).then(function(response) {
   }
   console.log(states);
 
-  // Sort reataurants from greatest to least frequency
+  // Sort restaurants from greatest to least frequency
   // https://stackoverflow.com/questions/25500316/sort-a-dictionary-by-value-in-javascript
   var restaurantsSorted = Object.keys(restaurants).map(function(key) {
     return [key, restaurants[key]];
@@ -104,7 +104,9 @@ d3.json("http://127.0.0.1:5000/json/"+stateInput).then(function(response) {
   // Check for changes on dropdown menu and call the updatePlotly function
   d3.selectAll("#selDataset").on("change", updatePlotly);
 
-  // function to plot with proper selected state
+//#########################################
+// update Plot. Function to plot with proper selected state
+//#####################################
   function updatePlotly() {
       // Select the dropdown menu
       var dropdownMenu = d3.select("#selDataset");
@@ -125,7 +127,7 @@ d3.json("http://127.0.0.1:5000/json/"+stateInput).then(function(response) {
       // Change the information on the page
       init(stateInput, states);
   }
-
+//###############################################################
       // Get the data and collect the top 10 samples
       var x = restaurantsSorted.map(x => x[1]);
       var xSliced = x.slice(0,10);
